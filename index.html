@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Мои Задачи</title>
+    
+    <!-- ССЫЛКИ ДЛЯ PWA (чтобы можно было установить) -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#121212">
     <link rel="apple-touch-icon" href="icon-192.png">
+    
     <style>
         :root { --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; --accent: #bb86fc; --success: #03dac6; --priority-high: #ff5252; --priority-med: #ffd740; --priority-low: #69f0ae; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -28,7 +31,7 @@
             color: var(--text); 
             font-size: 14px; 
             width: 100%; 
-            color-scheme: dark; /* Чтобы календарь был в темной теме */
+            color-scheme: dark;
         }
         
         button.add-btn { padding: 12px 20px; border: none; border-radius: 8px; background-color: var(--accent); color: #000; font-weight: bold; font-size: 16px; cursor: pointer; flex-basis: 100%; }
@@ -92,7 +95,6 @@
         </select>
         <input type="number" id="customIntervalInput" min="1" placeholder="Дней">
         
-        <!-- Поле даты с типом date -->
         <input type="date" id="dueDateInput">
         
         <button class="add-btn" id="addBtn">+ Добавить</button>
@@ -125,6 +127,11 @@
         const addBtn = document.getElementById('addBtn');
         const taskList = document.getElementById('taskList');
         const dueDateInput = document.getElementById('dueDateInput');
+
+        // Регистрация Service Worker для PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error', err));
+        }
 
         function toggleCustomInterval() {
             if (repeatInput.value === 'custom') customIntervalInput.classList.add('visible');
